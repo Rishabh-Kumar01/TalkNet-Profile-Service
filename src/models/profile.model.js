@@ -10,6 +10,7 @@ const profileSchema = new mongoose.Schema(
     profilePicture: { type: String },
     bio: { type: String },
     dateOfBirth: { type: Date },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

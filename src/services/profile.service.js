@@ -1,6 +1,5 @@
 const { ProfileRepository } = require("../repository/index.repository");
-const { ServiceError, DatabaseError } =
-  require("../utils/errors/index.error");
+const { ServiceError, DatabaseError } = require("../utils/errors/index.error");
 const { StatusCodes } = require("../utils/imports.util").responseCodes;
 
 class ProfileService {
@@ -25,6 +24,15 @@ class ProfileService {
           StatusCodes.NOT_FOUND
         );
       }
+
+      if (profile.isActive === false) {
+        throw new ServiceError(
+          "Profile not found",
+          "The requested profile has been deactivated",
+          StatusCodes.NOT_FOUND
+        );
+      }
+
       return profile;
     } catch (error) {
       if (error instanceof DatabaseError) {
@@ -66,6 +74,7 @@ class ProfileService {
 
   async updateProfile(userId, updateData) {
     try {
+      await this.getProfile(userId);
       const updatedProfile = await this.profileRepository.update(
         userId,
         updateData

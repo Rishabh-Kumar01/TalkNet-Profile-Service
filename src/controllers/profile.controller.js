@@ -1,10 +1,10 @@
 const { ProfileService } = require("../services/index.service");
 const { StatusCodes } = require("../utils/imports.util").responseCodes;
 
+const profileService = ProfileService.getInstance();
+
 class ProfileController {
-  constructor() {
-    this.profileService = ProfileService.getInstance();
-  }
+  constructor() {}
 
   static getInstance() {
     if (!ProfileController.instance) {
@@ -15,7 +15,7 @@ class ProfileController {
 
   async getProfile(req, res, next) {
     try {
-      const profile = await this.profileService.getProfile(req.params.userId);
+      const profile = await profileService.getProfile(req.params.userId);
       res.status(StatusCodes.OK).json({
         message: "Fetch profile successfully",
         success: true,
@@ -28,7 +28,7 @@ class ProfileController {
 
   async updateProfile(req, res, next) {
     try {
-      const updatedProfile = await this.profileService.updateProfile(
+      const updatedProfile = await profileService.updateProfile(
         req.params.userId,
         req.body
       );
@@ -44,7 +44,7 @@ class ProfileController {
 
   async deleteProfile(req, res, next) {
     try {
-      const result = await this.profileService.deleteProfile(req.params.userId);
+      const result = await profileService.deleteProfile(req.params.userId);
       res.status(StatusCodes.OK).json({
         message: "Profile deleted successfully",
         success: true,

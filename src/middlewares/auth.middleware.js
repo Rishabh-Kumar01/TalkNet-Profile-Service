@@ -28,6 +28,24 @@ const authenticate = (req, res, next) => {
 
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
+
+    if (!req.params.userId) {
+      throw new AppError(
+        "AuthenticationError",
+        "Unauthorized",
+        "You are not authorized to perform this operation",
+        StatusCodes.UNAUTHORIZED
+      );
+    }
+
+    if (req.user.userId != req.params.userId) {
+      throw new AppError(
+        "AuthenticationError",
+        "Unauthorized",
+        "You are not authorized to perform this operation",
+        StatusCodes.UNAUTHORIZED
+      );
+    }
     next();
   } catch (error) {
     if (error instanceof AppError) {

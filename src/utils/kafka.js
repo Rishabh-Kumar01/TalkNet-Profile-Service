@@ -15,7 +15,12 @@ const profileService = ProfileService.getInstance();
 const connectConsumer = async () => {
   try {
     await consumer.connect();
-    await consumer.subscribe({ topic: "user-events", fromBeginning: true });
+
+    await consumer.subscribe({
+      topic: "user-events",
+      fromBeginning: true,
+    });
+
     console.log("Kafka consumer connected and subscribed");
   } catch (error) {
     console.error("Failed to connect Kafka consumer:", error);

@@ -30,9 +30,8 @@ const setupAndStartServer = async () => {
     app.use(utils.errorHandler.BaseError);
 
     // Connect to Kafka Consumer
-    // await utils.kafka.connectConsumer();
-    // await utils.kafka.startConsumer();
-    // console.log("Kafka consumer connected and started");
+    await utils.kafka.connectConsumer();
+    await utils.kafka.startConsumer();
 
     // Connect to the database
     await config.connection();
